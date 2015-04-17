@@ -15,10 +15,31 @@
 # limitations under the License.
 #
 import webapp2
+from google.appengine.ext.webapp import template
+from google.appengine.api import users
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello world!')
+        #self.response.write('Hey there non criminals')
+        user = users.get_current_user()
+        template_values = {}
+        if user:
+        	url = users.create_logout_url('/')
+        	url_linktext = "Logout"
+        	greeting = "whats up"
+        else:
+        	url = users.create_login_url(self.request.uri)
+        	url_linktext = "Logout"
+        	greeting = "Youre back!"
+        template_values ={
+        	'greetings': greeting,
+        	'user': user,
+        	'url': url,
+        	'url_linktext':url_linktext
+        }
+
+        self.response.out.write(template.render("main.html", template_values))
+
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
