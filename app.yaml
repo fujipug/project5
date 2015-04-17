@@ -14,20 +14,23 @@ handlers:
   upload: favicon\.ico
 
 - url: /
- script: main.app
+  script: main.app
 
 - url: /posts
   script: posts.app
 
+- url: /lots
+  script: lots.app
+
 - url: /_ah/login_required
   script: do_openid_login.app
 
--url: /admin
- script: admin.app
- login: admin 
+#-url: /admin/.*
+# script: admin.app
+# login: admin 
 
 - url: /.*
- script: main.app
+  script: main.app
 
 libraries:
 - name: webapp2
