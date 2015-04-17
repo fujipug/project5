@@ -19,6 +19,13 @@ handlers:
 - url: /posts
   script: posts.app
 
+- url: /_ah/login_required
+  script: do_openid_login.app
+
+-url: /admin
+ script: admin.app
+ login: admin 
+
 - url: /.*
  script: main.app
 

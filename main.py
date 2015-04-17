@@ -37,14 +37,15 @@ class PostHandler(webapp2.RequestHandler):
         template_values = {}
         if user:
             url = users.create_logout_url('/')
-            url_linktext = "Logout"
-            greeting = "whats up"
+            url_linktext = "Sign out"
+            #self.response.write('Hello, ' + user.nickname())
+            #greeting = "whats up"
         else:
             url = users.create_login_url(self.request.uri)
-            url_linktext = "Logout"
-            greeting = "Youre back!"
+            url_linktext = "Sign In"
+            #greeting = "Youre back!"
         template_values ={
-            'greetings': greeting,
+            #'greetings': greeting,
             'user': user,
             'url': url,
             'url_linktext':url_linktext
