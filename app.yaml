@@ -21,6 +21,7 @@ handlers:
 
 - url: /lots
   script: lots.app
+  login: required
 
 - url: /_ah/login_required
   script: do_openid_login.app
