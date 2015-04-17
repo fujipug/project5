@@ -18,10 +18,8 @@ class PostHandler(webapp2.RequestHandler):
             'url_linktext':url_linktext
         }
 
-        self.response.out.write(template.render("posts.html", template_values))
+        self.response.out.write(template.render("./templates/posts.html", template_values))
 
-app = webapp2.WSGIApplication([ 
+app = webapp2.WSGIApplication([
     ('/posts', PostHandler)
 ], debug=True)
-
-

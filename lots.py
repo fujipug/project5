@@ -19,10 +19,8 @@ class LotHandler(webapp2.RequestHandler):
             'url_linktext':url_linktext
         }
 
-        self.response.out.write(template.render("lots.html", template_values))
+        self.response.out.write(template.render("./templates/lots.html", template_values))
 
-app = webapp2.WSGIApplication([ 
+app = webapp2.WSGIApplication([
     ('/lots', LotHandler)
 ], debug=True)
-
-

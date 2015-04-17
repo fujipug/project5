@@ -9,10 +9,8 @@ class MainHandler(webapp2.RequestHandler):
             'url':url
         }
 
-        self.response.out.write(template.render("main.html", template_values))
+        self.response.out.write(template.render("./templates/main.html", template_values))
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
 ], debug=True)
-
-
