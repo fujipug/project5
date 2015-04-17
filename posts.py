@@ -18,18 +18,6 @@ import webapp2
 from google.appengine.ext.webapp import template
 from google.appengine.api import users
 
-class MainHandler(webapp2.RequestHandler):
-    def get(self):
-        #self.response.write('Hey there non criminals')
-        template_values = {}
-        url = "/posts"
-        template_values = {
-            'url':url
-        }
-
-        self.response.out.write(template.render("main.html", template_values))
-
-
 class PostHandler(webapp2.RequestHandler):
     def get(self):
         #self.response.write('Hey there non criminals')
@@ -54,8 +42,5 @@ class PostHandler(webapp2.RequestHandler):
 
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler),
-    ('/posts', PostHandler)
+    ('/', PostHandler)
 ], debug=True)
-
-
