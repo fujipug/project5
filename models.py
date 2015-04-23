@@ -4,10 +4,25 @@ from google.appengine.ext import ndb
 
 parking_names = ["South Comuter"]
 
-class ParkingLotInfo(ndb.Model):
-	name = ndb.StringProperty(parking_names)
+class Comment(ndb.Model):
+	c_id = ndb.StringProperty()
+	text = ndb.StringProperty()
+	parking_lot_id = ndb.StringProperty()
+
+class Parking_lot(ndb.Model):
 	p_id = ndb.StringProperty()
-	full = ndb.BooleanProperty()
-	comments = ndb.StringProperty()
-	datetime = DateTimeProperty()
+	name = ndb.StringProperty()
+	is_full = ndb.BooleanProperty()
+	comments = ndb.KeyProperty(Comment, repeated=True)
+	date = ndb.DateTimeProperty()
+
+class Account(ndb.Model):
+	email = ndb.StringProperty()
+	parking_lots = ndb.KeyProperty(Parking_lot, repeated=True)
+	comments = ndb.KeyProperty(Comment, repeated=True)
+
+
+
+
+
 
