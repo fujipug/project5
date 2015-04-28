@@ -23,6 +23,9 @@ handlers:
   script: lots.app
   login: required
 
+- url: /comment_forms
+  script: comment_forms.app
+
 - url: /_ah/login_required
   script: do_openid_login.app
 
