@@ -155,7 +155,11 @@
                     </a>
                 </li>
                 <li>
-                    <p style ="color:#CCFFCC">Hi, {{user}}</p>
+                    <p class="lead" style ="color:#CCFFCC">
+                      {% if user %}
+                        Hi, {{user}}
+                      {% endif %}
+                    </p>
                 </li>
                 <!--<li>
                     <a href="#">Dashboard</a>
