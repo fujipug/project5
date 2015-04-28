@@ -19,7 +19,8 @@ class PostHandler(BaseHandler):
             'user': user,
             'url': url,
             'url_linktext':url_linktext,
-            'parking_lots': ParkingLot.query()
+            # order by description, if descriptions match, then order by name
+            'parking_lots': ParkingLot.query().order(ParkingLot.description, ParkingLot.name)
         }
 
         self.render("./templates/posts.html", template_values)
