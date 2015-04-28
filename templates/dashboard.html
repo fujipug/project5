@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>{%block title%}Dashboard - Cop Block{%endblock%}</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+  <!-- custom css -->
+  <link rel="stylesheet" href="../static/custom.css">
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="/">
+                        <h2>Cop Block</h2>
+                    </a>
+                </li>
+                <li>
+                    <p class="lead" style ="color:#CCFFCC">
+                      {% if user %}
+                        Hi, {{user}}
+                      {% endif %}
+                    </p>
+                </li>
+                <!--<li>
+                    <a href="#">Dashboard</a>
+                </li>-->
+                <li>
+                    <a href="/posts">Parking lots</a>
+                </li>
+                <!--<li>
+                    <a href="#">Overview</a>
+                </li>
+                <li>
+                    <a href="#">Events</a>
+                </li>
+                <li>
+                    <a href="#">About</a>
+                </li>-->
+                <li>
+                    <a href="https://nau.edu/parking/parkingmap/" target="_blank">Static Map</a>
+                </li>
+                <li>
+                    <a href="http://www2.nau.edu/nau-map/" target="_blank">Interactive Map</a>
+                </li>
+                <li>
+                    <a href="{{url}}"><h4>{{url_linktext}}</h4></a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                    	{%block content%}
+                        
+                      {%endblock%}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="static/jquery.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+
+</body>
+
+</html>
