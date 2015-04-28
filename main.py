@@ -3,7 +3,7 @@ import webapp2
 from base_handler import BaseHandler
 from posts import PostHandler
 from lots import LotHandler
-from models import ParkingLot
+import models
 
 class MainHandler(BaseHandler):
     def get(self):
@@ -33,6 +33,15 @@ class MainHandler(BaseHandler):
         # ]
         # for lot in lots:
         #     lot.put()
+        # comment = models.Comment(text="testing a comment for p64")
+        # comment_key = comment.put()
+        # lot = models.ParkingLot(
+        #     name="P64",
+        #     description="By Faculty Services",
+        #     comments=[comment_key]
+        #     )
+        # lot.put()
+
 
 # main application routing
 app = webapp2.WSGIApplication([
