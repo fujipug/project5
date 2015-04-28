@@ -1,7 +1,10 @@
 import webapp2
-from google.appengine.ext.webapp import template
 
-class MainHandler(webapp2.RequestHandler):
+from base_handler import BaseHandler
+from posts import PostHandler
+from lots import LotHandler
+
+class MainHandler(BaseHandler):
     def get(self):
         template_values = {}
         url = "/posts"
@@ -9,8 +12,9 @@ class MainHandler(webapp2.RequestHandler):
             'url':url
         }
 
-        self.response.out.write(template.render("./templates/main.html", template_values))
+        self.render("./templates/main.html", template_values)
 
+# main application routing
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
 ], debug=True)

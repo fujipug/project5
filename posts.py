@@ -1,8 +1,9 @@
 import webapp2
-from google.appengine.ext.webapp import template
 from google.appengine.api import users
 
-class PostHandler(webapp2.RequestHandler):
+from base_handler import BaseHandler
+
+class PostHandler(BaseHandler):
     def get(self):
         user = users.get_current_user()
         template_values = {}
@@ -18,8 +19,9 @@ class PostHandler(webapp2.RequestHandler):
             'url_linktext':url_linktext
         }
 
-        self.response.out.write(template.render("./templates/posts.html", template_values))
+        self.render("./templates/posts.html", template_values)
 
+# encapsulating posts into an app
 app = webapp2.WSGIApplication([
     ('/posts', PostHandler)
 ], debug=True)
