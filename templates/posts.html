@@ -1,13 +1,17 @@
 {% extends "./templates/dashboard.html" %}
 
+{% block head %}
+  <!-- since we are using 'block head', we need super() to include all the
+  information that is in the dashboard.html base template -->
+  {{ super() }}
+{% endblock head %}
+
 {%block content%}
   <h1>Parking Lots</h1>
-  <!--<p><a href = "/lots">South Commuter - P62</a></p>
-  <p><a href = "#">Behind Engineering - P46</a></p>-->
 
   <!-- grab parking lot data from datastore -->
   <!-- pass the lot urlsafe key as an identifier -->
   {% for lot in parking_lots %}
     <p><a href="/lots?id={{lot.key.urlsafe()}}">{{ lot.name }} -- {{ lot.description }}</a></p>
   {% endfor %}
-{%endblock%}
+{%endblock content%}
