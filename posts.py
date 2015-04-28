@@ -2,6 +2,7 @@ import webapp2
 from google.appengine.api import users
 
 from base_handler import BaseHandler
+from models import ParkingLot
 
 class PostHandler(BaseHandler):
     def get(self):
@@ -16,7 +17,8 @@ class PostHandler(BaseHandler):
         template_values ={
             'user': user,
             'url': url,
-            'url_linktext':url_linktext
+            'url_linktext':url_linktext,
+            'parking_lots': ParkingLot.query()
         }
 
         self.render("./templates/posts.html", template_values)
