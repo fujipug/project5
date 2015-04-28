@@ -4,11 +4,28 @@
   <!-- since we are using 'block head', we need super() to include all the
   information that is in the dashboard.html base template -->
   {{ super() }}
+
+  <!-- set the style for the map size - TODO: make responsive -->
+
+  <!-- include the google map api js -->
+  <script src="https://maps.googleapis.com/maps/api/js"></script>
+  <style>
+    #map-canvas {
+      width: 500px;
+      height: 500px;
+    }
+  </style>
+  <!-- script responsible for map initialization and behavior -->
+  <script src="../static/map.js"></script>
+
 {% endblock head %}
 
 {%block content%}
   <h1>Parking Lots</h1>
 
+  <!-- container for the map we created -->
+  <div id="map-canvas"></div>
+  
   <!-- grab parking lot data from datastore -->
   <!-- pass the lot urlsafe key as an identifier -->
   {% for lot in parking_lots %}
