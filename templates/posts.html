@@ -196,9 +196,13 @@
                     <div class="col-lg-12">
                     	{%block content%}
                         <h1>Parking Lots</h1>
-                        <p><a href = "/lots">South Commuter - P62</a></p>
-                        <p><a href = "#">Behind Engineering - P46</a></p>
-                        {%endblock%}
+                        <!--<p><a href = "/lots">South Commuter - P62</a></p>
+                        <p><a href = "#">Behind Engineering - P46</a></p>-->
+                        <!-- grab parking lot data from datastore -->
+                        {% for lot in parking_lots %}
+                          <p><a href="lots">{{ lot.name }} -- {{ lot.description }}</a></p>
+                        {% endfor %}
+                      {%endblock%}
                     </div>
                 </div>
             </div>
