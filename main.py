@@ -17,30 +17,38 @@ class MainHandler(BaseHandler):
 
         # add stuff to datastore here -- or use localhost:8000
         # -- make sure to comment after adding
-        # lots = [
-        #     ParkingLot(
-        #         name = "P66",
-        #         description = "Skydome",
-        #         ),
-        #     ParkingLot(
-        #         name = "P62",
-        #         description = "South Commuter"
-        #     ),
-        #     ParkingLot(
-        #         name = "P42",
-        #         description = "South of Forestry"
-        #     )
-        # ]
-        # for lot in lots:
-        #     lot.put()
-        # comment = models.Comment(text="testing a comment for p64")
-        # comment_key = comment.put()
-        # lot = models.ParkingLot(
-        #     name="P64",
-        #     description="By Faculty Services",
-        #     comments=[comment_key]
-        #     )
-        # lot.put()
+        lots = [
+            models.ParkingLot(
+                name = "P66",
+                description = "Skydome",
+                ),
+            models.ParkingLot(
+                name = "P96A",
+                description = "Knoes Parking Garage",
+                ),
+            models.ParkingLot(
+                name = "P96B",
+                description = "San Fransisco Parking Garage",
+                ),
+            models.ParkingLot(
+                name = "P62",
+                description = "South Commuter"
+            ),
+            models.ParkingLot(
+                name = "P42",
+                description = "South of Forestry"
+            )
+        ]
+        for lot in lots:
+            lot.put()
+        comment = models.Comment(text="testing a comment for p64")
+        comment_key = comment.put()
+        lot = models.ParkingLot(
+            name="P64",
+            description="By Faculty Services",
+            comments=[comment_key]
+            )
+        lot.put()
 
 
 # main application routing
