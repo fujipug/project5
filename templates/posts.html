@@ -1,34 +1,133 @@
 {% extends "./templates/dashboard.html" %}
 
 {% block head %}
-  <!-- since we are using 'block head', we need super() to include all the
-  information that is in the dashboard.html base template -->
-  {{ super() }}
+<!-- since we are using 'block head', we need super() to include all the
+information that is in the dashboard.html base template -->
+{{ super() }}
 
-  <!-- set the style for the map size - TODO: make responsive -->
+<!-- set the style for the map size - TODO: make responsive -->
 
-  <!-- include the google map api js -->
-  <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
-  <style>
-    #map-canvas {
-      width: 500px;
-      height: 500px;
+<!-- include the google map api js -->
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+<style>
+#map-canvas {
+  width: 500px;
+  height: 500px;
+}
+</style>
+<!-- script responsible for map initialization and behavior -->
+<!-- <script src="../static/map.js"></script> -->
+<script>
+// initializes the map and its style
+var map;
+var icons;
+var lots;
+
+function initialize() {
+  var mapCanvas = document.getElementById('map-canvas');
+
+  // set the starting lat/long location, zoom level, and map type
+  var mapOptions = {
+    center: new google.maps.LatLng(35.181794, -111.654232),
+    zoom: 14,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  }
+
+  // create the map
+  map = new google.maps.Map(mapCanvas, mapOptions);
+
+  // see https://gmaps-samples-v3.googlecode.com/svn/trunk/styledmaps/wizard/index.html
+
+  map.set('styles', [
+    {
+      // hide position of interest styling
+      featureType: 'poi',
+      elementType: 'geometry',
+      stylers: [ { visibility: 'off' } ]
+    },
+    // set the school position of interests to have a green shade
+    {
+      featureType: 'poi.school',
+      elementType: 'geometry',
+      stylers: [
+        { visibility: 'on' },
+        { hue: '#F6F8EE'/*'#338800'*/ },
+      ]
     }
-  </style>
-  <!-- script responsible for map initialization and behavior -->
-  <script src="../static/map.js"></script>
+  ]);
+  //var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';-->
+  // CC BYSA 3.0 Maps Icons Collection https://mapicons.mapsmarker.com
+  icons = {
+    parking: {
+      icon: 'static/parking.png'
+    }
+  };
+
+  // request used for querying google map places 5000m from NAU center
+  // i.e. look for parking lots
+  var requests = [];
+  var services = [];
+  var i = 0;
+  {% for lot in parking_lots %}
+  requests[i] = {
+    location: map.getCenter(),
+    radius: '5000',
+    types: ['parking'],
+    query: '{{ lot.name }}'
+  };
+  services[i] = new google.maps.places.PlacesService(map);
+  services[i].textSearch(requests[i], callback);
+  i++;
+  {% endfor %}
+}
+// end initialize()
+
+
+// Checks that the PlacesServiceStatus is OK, and adds a marker
+// using the place ID and location from the PlacesService.
+function callback(results, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    var marker = new google.maps.Marker({
+      map: map,
+      icon: icons['parking'].icon,
+      place: {
+        // get the most relevant results
+        placeId: results[0].place_id,
+        location: results[0].geometry.location
+      }
+    });
+    marker.infowindow = new google.maps.InfoWindow({
+      content:'<h4>' + results[0].name + '</h4>'
+    });
+
+    // info window pops up when hovering over the parking lot icon
+    google.maps.event.addListener(marker, 'mouseover', function() {
+
+      marker.infowindow.open(map, marker);
+      //setTimeout(function () { marker.infowindow.close(); }, 4000);
+    });
+    // info window closes when moving the mouse away from parking lot icon
+    google.maps.event.addListener(marker, 'mouseout', function() {
+      marker.infowindow.close();
+    });
+
+  }
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
 
 {% endblock head %}
 
 {%block content%}
-  <h1>Parking Lots</h1>
+<h1>Parking Lots</h1>
 
-  <!-- container for the map we created -->
-  <div id="map-canvas"></div>
+<!-- container for the map we created -->
+<div id="map-canvas"></div>
 
-  <!-- grab parking lot data from datastore -->
-  <!-- pass the lot urlsafe key as an identifier -->
-  {% for lot in parking_lots %}
-    <p><a href="/lots?id={{lot.key.urlsafe()}}">{{ lot.name }} -- {{ lot.description }}</a></p>
-  {% endfor %}
+<!-- grab parking lot data from datastore -->
+<!-- pass the lot urlsafe key as an identifier -->
+{% for lot in parking_lots %}
+<p><a href="/lots?id={{lot.key.urlsafe()}}">{{ lot.name }} -- {{ lot.description }}</a></p>
+{% endfor %}
 {%endblock content%}
