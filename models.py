@@ -1,4 +1,4 @@
-import os 
+import os
 import webapp2
 from google.appengine.ext import ndb
 
@@ -9,20 +9,14 @@ class Comment(ndb.Model):
 	text = ndb.StringProperty()
 	parking_lot_id = ndb.StringProperty()
 
-class Parking_lot(ndb.Model):
-	p_id = ndb.StringProperty()
+class ParkingLot(ndb.Model):
 	name = ndb.StringProperty()
-	is_full = ndb.BooleanProperty()
+	description = ndb.StringProperty()
+	is_full = ndb.BooleanProperty(default=False)
 	comments = ndb.KeyProperty(Comment, repeated=True)
 	date = ndb.DateTimeProperty()
 
 class Account(ndb.Model):
 	email = ndb.StringProperty()
-	parking_lots = ndb.KeyProperty(Parking_lot, repeated=True)
+	parking_lots = ndb.KeyProperty(ParkingLot, repeated=True)
 	comments = ndb.KeyProperty(Comment, repeated=True)
-
-
-
-
-
-
