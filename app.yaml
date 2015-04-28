@@ -28,7 +28,7 @@ handlers:
 
 #-url: /admin/.*
 # script: admin.app
-# login: admin 
+# login: admin
 
 - url: /.*
   script: main.app
@@ -36,3 +36,5 @@ handlers:
 libraries:
 - name: webapp2
   version: "2.5.2"
+- name: jinja2
+  version: latest
