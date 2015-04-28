@@ -8,7 +8,7 @@
   <!-- set the style for the map size - TODO: make responsive -->
 
   <!-- include the google map api js -->
-  <script src="https://maps.googleapis.com/maps/api/js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
   <style>
     #map-canvas {
       width: 500px;
@@ -25,7 +25,7 @@
 
   <!-- container for the map we created -->
   <div id="map-canvas"></div>
-  
+
   <!-- grab parking lot data from datastore -->
   <!-- pass the lot urlsafe key as an identifier -->
   {% for lot in parking_lots %}
