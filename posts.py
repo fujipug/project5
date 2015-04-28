@@ -8,6 +8,7 @@ class PostHandler(BaseHandler):
     def get(self):
         user = users.get_current_user()
         template_values = {}
+        # check if user is logged in or not and reroute appropriately
         if user:
             url = users.create_logout_url('/')
             url_linktext = "Sign out"

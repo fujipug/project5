@@ -78,7 +78,9 @@
                         <h1>Parking Lots</h1>
                         <!--<p><a href = "/lots">South Commuter - P62</a></p>
                         <p><a href = "#">Behind Engineering - P46</a></p>-->
+                        
                         <!-- grab parking lot data from datastore -->
+                        <!-- pass the lot urlsafe key as an identifier -->
                         {% for lot in parking_lots %}
                           <p><a href="/lots?id={{lot.key.urlsafe()}}">{{ lot.name }} -- {{ lot.description }}</a></p>
                         {% endfor %}

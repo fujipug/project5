@@ -16,9 +16,11 @@ class LotHandler(BaseHandler):
             url = users.create_login_url(self.request.uri)
             url_linktext = "Sign In"
 
+        # pull the id parameter from the query string
+        # this holds the urlsafe key for a specific parking lot
         lot_id = self.request.get('id')
-        print(lot_id)
         lot_key = ndb.Key(urlsafe=lot_id)
+        # get the parking lot associated with this key, then pass to template
         lot = lot_key.get()
         template_values ={
             'user': user,

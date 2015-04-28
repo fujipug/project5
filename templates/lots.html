@@ -3,8 +3,9 @@
 {%block content%}
 <!--future stuff-->
 <h1>{{ lot.name }} <small>{{ lot.description }}</small></h1>
+<!-- extract data from comments field (since it is ndb KeyProperty) -->
 {% for comment in lot.comments %}
-<h3>{{ comment.get().text }} @ {{ comment.get().date }}</h3>
+  <h3>{{ comment.get().text }} @ {{ comment.get().date }}</h3>
 {% endfor %}
 <p>Saw PS at {timestamp}</p>
 <button>leave a comment</buttons>
