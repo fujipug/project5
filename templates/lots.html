@@ -2,8 +2,10 @@
 
 {%block content%}
 <!--future stuff-->
-<h1>{Parking lot name}</h1>
-<h3>{Comments}</h3>
+<h1>{{ lot.name }} <small>{{ lot.description }}</small></h1>
+{% for comment in lot.comments %}
+<h3>{{ comment.get().text }} @ {{ comment.get().date }}</h3>
+{% endfor %}
 <p>Saw PS at {timestamp}</p>
 <button>leave a comment</buttons>
 {%endblock%}

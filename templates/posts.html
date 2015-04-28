@@ -80,7 +80,7 @@
                         <p><a href = "#">Behind Engineering - P46</a></p>-->
                         <!-- grab parking lot data from datastore -->
                         {% for lot in parking_lots %}
-                          <p><a href="lots">{{ lot.name }} -- {{ lot.description }}</a></p>
+                          <p><a href="/lots?id={{lot.key.urlsafe()}}">{{ lot.name }} -- {{ lot.description }}</a></p>
                         {% endfor %}
                       {%endblock%}
                     </div>
