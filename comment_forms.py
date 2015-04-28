@@ -27,9 +27,12 @@ class CommentFormHandler(BaseHandler):
         self.render("./templates/comment_forms.html", template_values)
 
     def post(self): 
-        (cgi.escape(self.request.get('comment')))
-        comment = models.Comment(text=cgi.escape(self.request.get('comment')))
+        comment = models.Comment(
+            text=self.request.get('comment'),
+            atype=int(self.request.get('atype')),
+            )
         comment_key = comment.put()
+
         self.redirect("/")
         
 
