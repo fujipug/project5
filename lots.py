@@ -3,7 +3,7 @@ from google.appengine.ext import ndb
 import webapp2
 
 from base_handler import BaseHandler
-from models import ParkingLot
+from models import ParkingLot, Comment
 
 class LotHandler(BaseHandler):
     def get(self):
@@ -20,13 +20,17 @@ class LotHandler(BaseHandler):
         # this holds the urlsafe key for a specific parking lot
         lot_id = self.request.get('id')
         lot_key = ndb.Key(urlsafe=lot_id)
+        # get comments on lot
+        comments = Comment.query(Comment.lot == lot_key)
         # get the parking lot associated with this key, then pass to template
         lot = lot_key.get()
         template_values ={
             'user': user,
             'url': url,
             'url_linktext':url_linktext,
-            'lot': lot
+            'lot': lot,
+            'lot_id': lot_id,
+            'comments': comments,
         }
         self.render("./templates/lots.html", template_values)
 

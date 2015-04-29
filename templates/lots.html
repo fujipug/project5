@@ -4,11 +4,19 @@
 <!--future stuff-->
 <h1>{{ lot.name }} <small>{{ lot.description }}</small></h1>
 <!-- extract data from comments field (since it is ndb KeyProperty) -->
-{% for comment in lot.comments %}
-  <h3>{{ comment.get().text }} @ {{ comment.get().date }}</h3>
+{% for comment in comments %}
+  <h3>{{ comment.text }} @ {{ comment.date }}</h3>
 {% endfor %}
-<p>Saw PS at {timestamp}</p>
-<form action="/comment_forms">
-    <input type="submit" value="Leave a comment">
+<p>Saw PS at {{ timestamp }}</p>
+
+<form action="/comment_forms" method="POST">
+    <input type="radio" name="atype" value=0 checked> Parking Services
+    <input type="radio" name="atype" value=1> Parking Lot Full
+    <input type="radio" name="atype" value=2> Other
+    <br/>
+    Comment: <input type="text" name="comment" />
+    <br/>
+    <input type="text" name="lot_id" value="{{lot.key.urlsafe()}}"/>
+    <input type="submit" value="Submit" />
 </form>
 {%endblock%}
