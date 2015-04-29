@@ -19,7 +19,7 @@ class LotHandler(BaseHandler):
                 acc.parking_lots.append(lot_key)
                 acc.put()
         # get comments on lot
-        comments = Comment.query(Comment.lot == lot_key)
+        comments = Comment.query(Comment.lot == lot_key).order(-Comment.date)
         # get the parking lot associated with this key, then pass to template
         lot = lot_key.get()
         template_values ={
