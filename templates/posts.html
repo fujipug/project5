@@ -120,11 +120,17 @@ google.maps.event.addDomListener(window, 'load', initialize);
 {% endblock head %}
 
 {%block content%}
-<h1>Parking Lots</h1>
 
 <!-- container for the map we created -->
 <div id="map-canvas"></div>
 
+{% if favorite_lots%}
+  <h3>Favorites:</h3>
+{% endif %}
+{% for lot in favorite_lots %}
+  <p><a href="/lots?id={{lot.key.urlsafe()}}">{{ lot.name }} -- {{ lot.description }}</a></p>
+{% endfor %}
+<h3>All parking lots:</h3>
 <!-- grab parking lot data from datastore -->
 <!-- pass the lot urlsafe key as an identifier -->
 {% for lot in parking_lots %}
