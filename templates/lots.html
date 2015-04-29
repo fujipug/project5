@@ -5,7 +5,27 @@
 <h1>{{ lot.name }} <small>{{ lot.description }}</small></h1>
 <!-- extract data from comments field (since it is ndb KeyProperty) -->
 {% for comment in comments %}
-  <h3>{{ comment.text }} @ {{ comment.date }}</h3>
+  <div
+    {% if comment.atype == 0 %}
+        class='panel panel-danger'>
+          <div class="panel-heading">
+            <h3 class="panel-title">Parking Services <small> @ {{ comment.date }}</small></h3>
+          </div>
+      {% elif comment.atype == 1 %}
+        class='panel panel-warning'>
+          <div class="panel-heading">
+            <h3 class="panel-title">Parking Lot Full <small>@ {{ comment.date }}</small></h3>
+          </div>
+      {% elif comment.atype == 2 %}
+        class='panel panel-default'>
+        <div class="panel-heading">
+          <h3 class="panel-title">Miscellaneous <small>@ {{ comment.date }}</small></h3>
+        </div>
+    {% endif %}
+    <div class="panel-body">
+    {{ comment.text }}
+    </div>
+  </div>
 {% endfor %}
 <p>Saw PS at {{ timestamp }}</p>
 
