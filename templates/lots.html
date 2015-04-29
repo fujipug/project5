@@ -8,5 +8,7 @@
   <h3>{{ comment.get().text }} @ {{ comment.get().date }}</h3>
 {% endfor %}
 <p>Saw PS at {timestamp}</p>
-<button>leave a comment</buttons>
+<form action="/comment_forms">
+    <input type="submit" value="Leave a comment">
+</form>
 {%endblock%}
