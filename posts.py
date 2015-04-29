@@ -9,8 +9,9 @@ class PostHandler(BaseHandler):
         template_values = {}
         favorite_lots = []
         acc = self.get_account()
-        for x in acc.parking_lots:
-            favorite_lots.append(x.get())
+        if acc:
+            for x in acc.parking_lots:
+                favorite_lots.append(x.get())
 
         template_values ={
             'user': self.user,
