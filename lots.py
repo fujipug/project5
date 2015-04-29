@@ -7,27 +7,25 @@ from models import ParkingLot, Comment
 
 class LotHandler(BaseHandler):
     def get(self):
-        user = users.get_current_user()
-        template_values = {}
-        if user:
-            url = users.create_logout_url('/')
-            url_linktext = "Sign out"
-        else:
-            url = users.create_login_url(self.request.uri)
-            url_linktext = "Sign In"
 
         # pull the id parameter from the query string
         # this holds the urlsafe key for a specific parking lot
         lot_id = self.request.get('id')
         lot_key = ndb.Key(urlsafe=lot_id)
+        # get account
+        acc = self.get_account()
+        # check if lot is in favorites
+        if lot_key not in acc.parking_lots:
+                acc.parking_lots.append(lot_key)
+                acc.put()
         # get comments on lot
         comments = Comment.query(Comment.lot == lot_key)
         # get the parking lot associated with this key, then pass to template
         lot = lot_key.get()
         template_values ={
-            'user': user,
-            'url': url,
-            'url_linktext':url_linktext,
+            'user': self.user,
+            'url': self.url,
+            'url_linktext':self.url_linktext,
             'lot': lot,
             'lot_id': lot_id,
             'comments': comments,
