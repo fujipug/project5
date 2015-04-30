@@ -9,21 +9,27 @@
     {% if comment.atype == 0 %}
         class='panel panel-danger'>
           <div class="panel-heading">
-            <h3 class="panel-title">Parking Services <small> @ {{ comment.time }}</small></h3>
+            <h3 class="panel-title">
+              Parking Services <small> via {{ user }} @ {}{ comment.time }}</small>
+              </h3>
           </div>
       {% elif comment.atype == 1 %}
         class='panel panel-warning'>
           <div class="panel-heading">
-            <h3 class="panel-title">Parking Lot Full <small>@ {{ comment.time }}</small></h3>
+            <h3 class="panel-title">
+              Parking Lot Full <small> via <strong>{{ user }}</strong> @ {{ comment.time }}</small>
+            </h3>
           </div>
       {% elif comment.atype == 2 %}
         class='panel panel-default'>
         <div class="panel-heading">
-          <h3 class="panel-title">Miscellaneous <small>@ {{ comment.time }}</small></h3>
+          <h3 class="panel-title">
+            Miscellaneous <small> via <strong>{{ user }}</strong> @ {{ comment.time }}</small>
+          </h3>
         </div>
     {% endif %}
     <div class="panel-body">
-    {{ comment.text }}
+      {{ comment.text }}
     </div>
   </div>
 {% endfor %}
