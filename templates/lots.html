@@ -13,21 +13,21 @@
         class='panel panel-danger'>
           <div class="panel-heading">
             <h3 class="panel-title">
-              Parking Services <small> via <strong>{{ user }}</strong> @ {{ comment.time }}</small>
+              Parking Services <small> via <strong>{{ comment.author }}</strong> @ {{ comment.time }}</small>
               </h3>
           </div>
       {% elif comment.atype == 1 %}
         class='panel panel-warning'>
           <div class="panel-heading">
             <h3 class="panel-title">
-              Parking Lot Full <small> via <strong>{{ user }}</strong> @ {{ comment.time }}</small>
+              Parking Lot Full <small> via <strong>{{ comment.author }}</strong> @ {{ comment.time }}</small>
             </h3>
           </div>
       {% elif comment.atype == 2 %}
         class='panel panel-default'>
         <div class="panel-heading">
           <h3 class="panel-title">
-            Miscellaneous <small> via <strong>{{ user }}</strong> @ {{ comment.time }}</small>
+            Miscellaneous <small> via <strong>{{ comment.author }}</strong> @ {{ comment.time }}</small>
           </h3>
         </div>
     {% endif %}
@@ -58,7 +58,7 @@
 {% block jquery %}
 {{ super() }}
 <script>
-// this toggles the button from Hide to Show 
+// this toggles the button from Hide to Show
 $('.hidden').removeClass('hidden').hide();
 $('.toggle-button').click(function() {
     $(this).find('span').each(function() { $(this).toggle(); });
