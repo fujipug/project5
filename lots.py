@@ -25,17 +25,30 @@ class LotHandler(BaseHandler):
 
         for c in comments:
             seconds_passed = (datetime.now() - c.date).total_seconds()
-            # compute seconds
+            passed = ""
+            end = ""
+            # compute seconds when under a minute has passed
             if seconds_passed < 60:
-                c.time = str(int(seconds_passed)) + " seconds ago"
-            # compute minutes
-            elif seconds_passed < 60 * 60:
-                c.time = str(int(seconds_passed / 60)) + " minutes ago"
-            # compute hours
-            elif seconds_passed < 60 * 60 * 24:
-                c.time = str(int(seconds_passed) / 3600) + " hours ago"
+                passed = str(int(seconds_passed))
+                end = " seconds ago"
+            # compute minutes when under an hour has passed
+            elif seconds_passed < 3600:
+                passed = str(int(seconds_passed / 60))
+                end = " minutes ago"
+                if seconds_passed < 120:
+                    end = " minute ago"
+            # compute hours when under a day has passed
+            elif seconds_passed < 3600 * 24:
+                passed = str(int(seconds_passed) / 3600)
+                end = " hours ago"
+                if seconds_passed < 7200:
+                    end = " hour ago"
             else:
-                c.time = str(int(seconds_passed) / (3600*24)) + " days ago"
+                passed = str(int(seconds_passed) / (3600*24))
+                end = " days ago"
+                if seconds_passed < 3600 * 48:
+                    end = " day ago"
+            c.time = passed + end
             #print(diff)
 
         # get the parking lot associated with this key, then pass to template
