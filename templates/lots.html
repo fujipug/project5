@@ -6,8 +6,11 @@
 <h1>
   <div class="col-lg-8 col-md-6 col-sm-6">{{ lot.name }} <small>{{ lot.description }}</small></div>
   <div class="col-lg-4 col-md-6 col-sm-6 text-right">
-    <button type="button" class="btn btn-default toggle-button" type="button" data-toggle="collapse" data-target=".comment-text" aria-expanded="false" aria-controls="collapseExample">
+    <button type="button" class="btn btn-default toggle-comment" type="button" data-toggle="collapse" data-target=".comment-text" aria-expanded="false" aria-controls="show comment text">
       <span class="hidden glyphicon glyphicon-eye-close"></span><span class="glyphicon glyphicon-eye-open"></span>
+    </button>
+    <button type="button" class="btn btn-default toggle-old" data-toggle="collapse" data-target=".comment-old" aria-expanded="false" aria-controls="show old comments">
+      <span class="hidden">Hide</span><span>Show</span> Old Comments
     </button>
   </div>
 </h1>
@@ -15,7 +18,11 @@
 <hr />
 
 <!-- extract data from comments field (since it is ndb KeyProperty) -->
+<!-- hide comments that aren't recent (older than 15 minutes) -->
 {% for comment in comments %}
+  {% if comment.recent == False %}
+    <div class='collapse comment-old'>
+  {% endif %}
   <div
     {% if comment.atype == 0 %}
         class='panel panel-danger'>
@@ -61,9 +68,12 @@
       </div>
     </div>
     {% endif %}
-  </div>
+  </div> <!-- end panel div -->
+  {% if comment.recent == False %}
+    </div> <!-- end comment-old collapse div -->
+  {% endif %}
 {% endfor %}
-<p>Saw PS at {{ timestamp }}</p>
+
 
 <form action="/comment_forms" method="POST">
     <input type="radio" name="atype" value=0 checked> Parking Services
@@ -79,12 +89,17 @@
 
 <!-- use super() to get the jquery library -->
 {% block jquery %}
-{{ super() }}
-<script>
-// this toggles the button from Hide to Show
-$('.hidden').removeClass('hidden').hide();
-$('.toggle-button').click(function() {
+  {{ super() }}
+  <script>
+  // reverse jquery hidden (because of Bootstrap)
+  $('.hidden').removeClass('hidden').hide();
+  // toggle the comment text
+  $('.toggle-comment').click(function() {
     $(this).find('span').each(function() { $(this).toggle(); });
-});
-</script>
+  });
+  // toggle the old comments button
+  $('.toggle-old').click(function() {
+    $(this).find('span').each(function() { $(this).toggle(); });
+  });
+  </script>
 {% endblock jquery %}
