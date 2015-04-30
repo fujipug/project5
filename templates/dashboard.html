@@ -86,12 +86,14 @@
     </div>
     <!-- /#wrapper -->
 
+    {% block jquery %}
     <!-- jQuery -->
     <script src="static/jquery.js"></script>
 
     <!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    {% endblock jquery %}
+    
     <!-- Menu Toggle Script -->
     <script>
     $("#menu-toggle").click(function(e) {
