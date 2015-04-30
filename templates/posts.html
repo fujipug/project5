@@ -21,7 +21,7 @@ information that is in the dashboard.html base template -->
 // initializes the map and its style
 var map;
 var icons;
-var lots;
+var lots = [];
 
 function initialize() {
   var mapCanvas = document.getElementById('map-canvas');
@@ -39,21 +39,21 @@ function initialize() {
   // see https://gmaps-samples-v3.googlecode.com/svn/trunk/styledmaps/wizard/index.html
 
   map.set('styles', [
-    {
-      // hide position of interest styling
-      featureType: 'poi',
-      elementType: 'geometry',
-      stylers: [ { visibility: 'off' } ]
-    },
-    // set the school position of interests to have a green shade
-    {
-      featureType: 'poi.school',
-      elementType: 'geometry',
-      stylers: [
-        { visibility: 'on' },
-        { hue: '#F6F8EE'/*'#338800'*/ },
-      ]
-    }
+    // {
+    //   // hide position of interest styling
+    //   featureType: 'poi',
+    //   elementType: 'geometry',
+    //   stylers: [ { visibility: 'off' } ]
+    // },
+    // // set the school position of interests to have a green shade
+    // {
+    //   featureType: 'poi.school',
+    //   elementType: 'geometry',
+    //   stylers: [
+    //     { visibility: 'on' },
+    //     { hue: '#F6F8EE'/*'#338800'*/ },
+    //   ]
+    // }
   ]);
   //var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';-->
   // CC BYSA 3.0 Maps Icons Collection https://mapicons.mapsmarker.com
@@ -75,6 +75,12 @@ function initialize() {
     types: ['parking'],
     query: '{{ lot.name }}'
   };
+  // store some information from the lot instances we grab
+  lots[i] = {
+    url:'lots?id={{lot.key.urlsafe()}}',
+    name: '{{ lot.name }}',
+    desc: '{{ lot.description }}'
+  };
   services[i] = new google.maps.places.PlacesService(map);
   services[i].textSearch(requests[i], callback);
   i++;
@@ -87,6 +93,14 @@ function initialize() {
 // using the place ID and location from the PlacesService.
 function callback(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
+    var lot = lots[0]; // need to provide default value initialization
+    // iterate thru lots until we find one whose name matches the result name
+    for (var i = 0; i < lots.length; i++) {
+      if (lots[i].name == results[0].name) {
+        lot = lots[i];
+        break;
+      }
+    }
     var marker = new google.maps.Marker({
       map: map,
       icon: icons['parking'].icon,
@@ -94,10 +108,13 @@ function callback(results, status) {
         // get the most relevant results
         placeId: results[0].place_id,
         location: results[0].geometry.location
-      }
+      },
+      // location to the lot (the key)
+      url: lot.url
     });
     marker.infowindow = new google.maps.InfoWindow({
-      content:'<h4>' + results[0].name + '</h4>'
+      content:'<h4>' + results[0].name + '</h4>' +
+              '<small>' + lot.desc + '</small>'
     });
 
     // info window pops up when hovering over the parking lot icon
@@ -109,6 +126,11 @@ function callback(results, status) {
     // info window closes when moving the mouse away from parking lot icon
     google.maps.event.addListener(marker, 'mouseout', function() {
       marker.infowindow.close();
+    });
+
+    // clicking the marker goes to that lot's page
+    google.maps.event.addListener(marker, 'click', function() {
+      window.location.href = marker.url;
     });
 
   }
