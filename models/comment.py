@@ -6,3 +6,4 @@ class Comment(ndb.Model):
     date = ndb.DateTimeProperty(auto_now_add=True)
     atype = ndb.IntegerProperty()
     lot = ndb.KeyProperty(ParkingLot, repeated=True)
+    time = ndb.StringProperty(default=' now')
