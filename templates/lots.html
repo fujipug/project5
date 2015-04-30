@@ -1,11 +1,13 @@
 {% extends "./templates/dashboard.html" %}
 
 {%block content%}
-<button type="button" class="btn btn-default toggle-button" type="button" data-toggle="collapse" data-target=".comment-text" aria-expanded="false" aria-controls="collapseExample">
-  <span class="hidden">Hide</span><span>Show</span> Comments
-</button>
-<!--future stuff-->
-<h1>{{ lot.name }} <small>{{ lot.description }}</small></h1>
+
+<h1>{{ lot.name }} <small>{{ lot.description }}</small>
+  <button type="button" class="btn btn-default toggle-button" type="button" data-toggle="collapse" data-target=".comment-text" aria-expanded="false" aria-controls="collapseExample">
+    <span class="hidden glyphicon glyphicon-eye-close"></span><span class="glyphicon glyphicon-eye-open"></span>
+  </button>
+</h1>
+
 <!-- extract data from comments field (since it is ndb KeyProperty) -->
 {% for comment in comments %}
   <div
