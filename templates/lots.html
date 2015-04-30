@@ -28,9 +28,11 @@
           </h3>
         </div>
     {% endif %}
-    <div class="panel-body">
+    {% if comment.text %}
+    <div class="panel-body" id="comment">
       {{ comment.text }}
     </div>
+    {% endif %}
   </div>
 {% endfor %}
 <p>Saw PS at {{ timestamp }}</p>
