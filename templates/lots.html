@@ -2,11 +2,17 @@
 
 {%block content%}
 
-<h1>{{ lot.name }} <small>{{ lot.description }}</small>
-  <button type="button" class="btn btn-default toggle-button" type="button" data-toggle="collapse" data-target=".comment-text" aria-expanded="false" aria-controls="collapseExample">
-    <span class="hidden glyphicon glyphicon-eye-close"></span><span class="glyphicon glyphicon-eye-open"></span>
-  </button>
+<div class="row">
+<h1>
+  <div class="col-lg-8 col-md-6 col-sm-6">{{ lot.name }} <small>{{ lot.description }}</small></div>
+  <div class="col-lg-4 col-md-6 col-sm-6 text-right">
+    <button type="button" class="btn btn-default toggle-button" type="button" data-toggle="collapse" data-target=".comment-text" aria-expanded="false" aria-controls="collapseExample">
+      <span class="hidden glyphicon glyphicon-eye-close"></span><span class="glyphicon glyphicon-eye-open"></span>
+    </button>
+  </div>
 </h1>
+</div>
+<hr />
 
 <!-- extract data from comments field (since it is ndb KeyProperty) -->
 {% for comment in comments %}
