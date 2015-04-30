@@ -27,6 +27,9 @@ class LotHandler(BaseHandler):
             seconds_passed = (datetime.now() - c.date).total_seconds()
             passed = ""
             end = ""
+            # recent is no older than 15 minutes (ie < 16 minutes)
+            if seconds_passed < 60 * 16:
+                c.recent = True
             # compute seconds when under a minute has passed
             if seconds_passed < 60:
                 passed = str(int(seconds_passed))
