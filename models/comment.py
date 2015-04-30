@@ -8,3 +8,4 @@ class Comment(ndb.Model):
     lot = ndb.KeyProperty(ParkingLot, repeated=True)
     time = ndb.StringProperty(default=' now')
     author = ndb.UserProperty()
+    recent = ndb.BooleanProperty(default=False)
