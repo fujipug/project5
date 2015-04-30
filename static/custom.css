@@ -121,3 +121,7 @@
 .panel {
   border: 0;
 }
+
+body .panel-body {
+  line-height: 1.2;
+}
