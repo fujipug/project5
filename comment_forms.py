@@ -39,10 +39,11 @@ class CommentFormHandler(BaseHandler):
             text=self.request.get('comment'),
             atype=int(self.request.get('atype')),
             lot=[lot_key],
+            author=self.user
             )
         comment_key = comment.put()
         self.redirect("/lots?id=" + lot.key.urlsafe())
-        
+
 
 # encapsulating posts into an app
 app = webapp2.WSGIApplication([
