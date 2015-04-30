@@ -1,6 +1,9 @@
 {% extends "./templates/dashboard.html" %}
 
 {%block content%}
+<button type="button" class="btn btn-default toggle-button" type="button" data-toggle="collapse" data-target=".comment-text" aria-expanded="false" aria-controls="collapseExample">
+  <span class="hidden">Hide</span><span>Show</span> Comments
+</button>
 <!--future stuff-->
 <h1>{{ lot.name }} <small>{{ lot.description }}</small></h1>
 <!-- extract data from comments field (since it is ndb KeyProperty) -->
@@ -29,8 +32,10 @@
         </div>
     {% endif %}
     {% if comment.text %}
-    <div class="panel-body" id="comment">
-      {{ comment.text }}
+    <div class="collapse comment-text">
+      <div class="panel-body">
+        {{ comment.text }}
+      </div>
     </div>
     {% endif %}
   </div>
@@ -48,3 +53,15 @@
     <input type="submit" value="Submit" />
 </form>
 {%endblock%}
+
+<!-- use super() to get the jquery library -->
+{% block jquery %}
+{{ super() }}
+<script>
+// this toggles the button from Hide to Show 
+$('.hidden').removeClass('hidden').hide();
+$('.toggle-button').click(function() {
+    $(this).find('span').each(function() { $(this).toggle(); });
+});
+</script>
+{% endblock jquery %}
