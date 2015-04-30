@@ -21,7 +21,11 @@ class LotHandler(BaseHandler):
                 acc.parking_lots.append(lot_key)
                 acc.put()
         # get comments on lot
-        comments = Comment.query(Comment.lot == lot_key).order(-Comment.date)
+        comments = Comment.query(
+            Comment.lot == lot_key,
+            # filter out any comments older than a day
+            Comment.date > datetime.utcnow() - timedelta(days=1)
+            ).order(-Comment.date)
 
         for c in comments:
             seconds_passed = (datetime.now() - c.date).total_seconds()
