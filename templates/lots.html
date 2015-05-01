@@ -82,8 +82,8 @@
 <form action="/comment_forms" method="POST" id="comment_form">
     <input type="radio" name="atype" value=0 checked><small> Parking Services</small><br/>
     <input type="radio" name="atype" value=1><small> Parking Lot Full</small><br/>
-    <input type="radio" name="atype" value=2><small> Other</small><br/>
-    <!--<input type="text" name="comment" /> -->
+    <input type="radio" name="atype" value=2><small> Cop Present</small><br/>
+    <input type="radio" name="atype" value=3><small> Other</small><br/>
     <br/>
     <textarea class="form-control" rows="4" cols="40" name="comment"
       form="comment_form" placeholder="Optional comment message..."></textarea>
@@ -137,6 +137,9 @@
             }
             if (render(text) == 1) {
               return 'Parking Lot Full';
+            }
+            if (render(text) == 2) {
+              return 'Cop Present';
             }
             return 'Miscellaneous';
           }

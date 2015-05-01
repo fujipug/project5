@@ -46,7 +46,7 @@ class LotHandler(BaseHandler):
                 # full if the comment is a parking lot full type comment
                 if c.atype == 1:
                     updated_full = True
-                elif c.atype == 0:
+                elif c.atype == 2:
                     updated_cop = True
             else:
                 c.recent = False
