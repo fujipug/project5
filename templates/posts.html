@@ -59,7 +59,9 @@ function initialize() {
   // CC BYSA 3.0 Maps Icons Collection https://mapicons.mapsmarker.com
   icons = {
     parking: {
-      icon: 'static/parking.png'
+      p: 'static/parking.png',
+      cop: 'static/cop.png',
+      full: 'static/full.png'
     }
   };
 
@@ -79,7 +81,9 @@ function initialize() {
   lots[i] = {
     url:'lots?id={{lot.key.urlsafe()}}',
     name: '{{ lot.name }}',
-    desc: '{{ lot.description }}'
+    desc: '{{ lot.description }}',
+    cop: '{{ lot.cop }}',
+    full: '{{ lot.is_full }}'
   };
   services[i] = new google.maps.places.PlacesService(map);
   services[i].textSearch(requests[i], callback);
@@ -101,9 +105,19 @@ function callback(results, status) {
         break;
       }
     }
+    // conditionally update the marker image
+    var status = icons['parking'].p;
+    // cop icon is red
+    if (lot.cop == "True") {
+      status = icons['parking'].cop;
+    }
+    // full icon is yellow
+    if (lot.full == "True") {
+      status = icons['parking'].full;
+    }
     var marker = new google.maps.Marker({
       map: map,
-      icon: icons['parking'].icon,
+      icon: status,
       place: {
         // get the most relevant results
         placeId: results[0].place_id,
