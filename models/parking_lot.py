@@ -5,3 +5,4 @@ class ParkingLot(ndb.Model):
 	description = ndb.StringProperty()
 	is_full = ndb.BooleanProperty(default=False)
 	date = ndb.DateTimeProperty()
+	cop = ndb.BooleanProperty(default=False)
