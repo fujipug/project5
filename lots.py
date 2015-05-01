@@ -12,7 +12,7 @@ class LotHandler(BaseHandler):
 
         # pull the id parameter from the query string
         # this holds the urlsafe key for a specific parking lot
-        lot_id = self.request.get('id')
+        lot_id = self.request.get('lot_id')
         lot_key = ndb.Key(urlsafe=lot_id)
 
         # get account

@@ -28,7 +28,7 @@ class PostHandler(BaseHandler):
             Comment.date > datetime.utcnow() - timedelta(minutes=16))
 
         for c in comments:
-            l = c.lot.get()
+            l = c.lot_key.get()
             print(l.is_full)
             if c.atype == 1: # full -- priority
                 l.is_full = True

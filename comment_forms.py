@@ -100,7 +100,7 @@ class CommentFormHandler(BaseHandler):
             author=self.user
             )
         comment_key = comment.put()
-        self.redirect("/lots?id=" + lot_key.urlsafe())
+        self.redirect("/lots?lot_id=" + lot_key.urlsafe())
 
 
 # encapsulating posts into an app

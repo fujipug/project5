@@ -79,7 +79,7 @@
   <p> Loading...</p>
 </div>
 <h3>Leave a comment:</h3>
-<form action="/comment_forms" method="POST" id="comment_form">
+<form action="/comment_forms?lot_id={{lot.key.urlsafe()}}" method="POST" id="comment_form">
     <input type="radio" name="atype" value=0 checked><small> Parking Services</small><br/>
     <input type="radio" name="atype" value=1><small> Parking Lot Full</small><br/>
     <input type="radio" name="atype" value=2><small> Cop Present</small><br/>
@@ -88,7 +88,6 @@
     <textarea class="form-control" rows="4" cols="40" name="comment"
       form="comment_form" placeholder="Optional comment message..."></textarea>
     <br/>
-    <input type="hidden" name="lot_id" value="{{lot.key.urlsafe()}}"/>
     <input class="btn btn-default" type="submit" value="Submit" />
 </form>
 
