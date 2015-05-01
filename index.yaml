@@ -21,6 +21,12 @@ indexes:
   - name: date
     direction: desc
 
+- kind: Comment
+  properties:
+  - name: lot_key
+  - name: date
+    direction: desc
+
 - kind: ParkingLot
   properties:
   - name: description

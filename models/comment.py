@@ -5,7 +5,7 @@ class Comment(ndb.Model):
     text = ndb.StringProperty()
     date = ndb.DateTimeProperty(auto_now_add=True)
     atype = ndb.IntegerProperty()
-    lot = ndb.KeyProperty(ParkingLot)
+    lot_key = ndb.KeyProperty(ParkingLot)
     time = ndb.StringProperty(default=' now')
     author = ndb.UserProperty()
     recent = ndb.BooleanProperty(default=False)

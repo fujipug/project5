@@ -25,7 +25,7 @@ class LotHandler(BaseHandler):
 
         # get comments on lot
         comments = Comment.query(
-            Comment.lot == lot_key,
+            Comment.lot_key == lot_key,
             # filter out any comments older than a day
             Comment.date > datetime.utcnow() - timedelta(days=1)
             ).order(-Comment.date)

@@ -113,7 +113,7 @@
   });
 
   function loadData() {
-    $.getJSON("/comment_forms?id={{lot.key.urlsafe()}}", function (json) {
+    $.getJSON("/comment_forms?lot_id={{lot.key.urlsafe()}}", function (json) {
       json.pop();
       var template = $('#template').html();
       Mustache.parse(template);
@@ -121,7 +121,7 @@
         array: json,
         "panelType": function () {
           return function (text, render) {
-            if (render(text) == 0) {
+            if (render(text) == 0 || render(text) == 2) {
               return 'panel panel-danger';
             }
             if (render(text) == 1) {
@@ -147,7 +147,11 @@
         "recentFirst": function () {
           return function (text, render) {
             if (render(text) === 'false') {
-              return "<div class='collapse comment-old'>";
+              if ($(".toggle-old span").attr("style") === "display: none;") {
+                return "<div class='comment-old collapse'>";
+              }else{
+                return "<div class='comment-old collapse in' aria-expanded='true'>";
+              }
             }
             return '';
           }
@@ -159,8 +163,17 @@
             }
             return '';
           }
-        }
+        },
+        "showComment": function () {
+          return function (text, render) {
+            if ($(".toggle-comment span").attr("style") === "display: none;") {
+              return "<div class='comment-text collapse'>";
+            }
+            return "<div class='comment-text collapse in' aria-expanded='true'>";
+          }
+        },
       };
+
       var rendered = Mustache.render(template, data);
       $('#target').html(rendered);
     });
@@ -186,7 +199,7 @@
         </h3>
       </div>
     </div>
-    <div class="collapse comment-text">
+    {{ '{{' }} #showComment {{ '}}' }}{{ '{{' }}/ showComment {{ '}}' }}
       <div class="panel-body">
         <small>{{ '{{' }} text {{ '}}' }}</small>
       </div>

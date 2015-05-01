@@ -41,7 +41,7 @@ class CommentFormHandler(BaseHandler):
         self.response.out.write("[")
         # pull the id parameter from the query string
         # this holds the urlsafe key for a specific parking lot
-        lot_id = self.request.get('id')
+        lot_id = self.request.get('lot_id')
         lot_key = ndb.Key(urlsafe=lot_id)
         # get account
         acc = self.get_account()
@@ -51,7 +51,7 @@ class CommentFormHandler(BaseHandler):
                 acc.put()
         # get comments on lot
         comments = Comment.query(
-            Comment.lot == lot_key,
+            Comment.lot_key == lot_key,
             # filter out any comments older than a day
             Comment.date > datetime.utcnow() - timedelta(days=1)
             ).order(-Comment.date)
@@ -96,11 +96,11 @@ class CommentFormHandler(BaseHandler):
         comment = models.Comment(
             text=self.request.get('comment'),
             atype=int(self.request.get('atype')),
-            lot=lot_key,
+            lot_key=lot_key,
             author=self.user
             )
         comment_key = comment.put()
-        self.redirect("/lots?id=" + lot.key.urlsafe())
+        self.redirect("/lots?id=" + lot_key.urlsafe())
 
 
 # encapsulating posts into an app
