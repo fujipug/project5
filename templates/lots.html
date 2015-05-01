@@ -87,12 +87,18 @@
     <input type="hidden" name="lot_id" value="{{lot.key.urlsafe()}}"/>
     <input type="submit" value="Submit" />
 </form>
+<div id="target">
+  <p> Loading...</p>
+</div>
 {%endblock%}
 
 <!-- use super() to get the jquery library -->
 {% block jquery %}
   {{ super() }}
+  <!-- Mustach.js -->
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
   <script>
+
   // reverse jquery hidden (because of Bootstrap)
   $('.hidden').removeClass('hidden').hide();
   // toggle the comment text
@@ -103,5 +109,49 @@
   $('.toggle-old').click(function() {
     $(this).find('span').each(function() { $(this).toggle(); });
   });
+
+  function loadData() {
+    $.getJSON("/comment_forms?id=agxkZXZ-cHJvamVjdDVyFwsSClBhcmtpbmdMb3QYgICAgIDA3wkM", function (json) {
+      json.pop();
+      var template = $('#template').html();
+      Mustache.parse(template);
+      var data = {
+        array: json,
+        "dateString": function () {
+          return function (text, render) {
+            return new Date(render(text)).toString();
+          }
+        }
+      };
+      var rendered = Mustache.render(template, data);
+      $('#target').html(rendered);
+    });
+    
+    setTimeout(loadData, 5000);
+  }
+  $(document).ready(function () {
+        loadData();
+  })
+  </script>
+  <script id="template" type="x-tmpl-mustache">
+  {{ '{{' }} #array {{ '}}' }}
+    <div class='panel panel-danger'>
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <div class="row">
+            <div class="col-lg-8 col-md-6 col-sm-6">Miscellaneous</div>
+            <div class="col-lg-4 col-md-6 col-sm-6 text-right">
+              <small> via <strong>{{ '{{' }} author {{ '}}' }}</strong> @ <em>{{ '{{' }} time {{ '}}' }}</em></small>
+            </div>
+          </div>
+        </h3>
+      </div>
+    </div>
+    <div class="collapse comment-text">
+      <div class="panel-body">
+        <small>{{ '{{' }} text {{ '}}' }}</small>
+      </div>
+    </div>
+  {{ '{{' }} /array {{ '}}' }}
   </script>
 {% endblock jquery %}
