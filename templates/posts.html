@@ -11,7 +11,7 @@ information that is in the dashboard.html base template -->
 <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
 <style>
 #map-canvas {
-  width: 500px;
+  width: auto;
   height: 500px;
 }
 </style>
@@ -160,16 +160,42 @@ google.maps.event.addDomListener(window, 'load', initialize);
 <!-- container for the map we created -->
 <div id="map-canvas"></div>
 
-{% if favorite_lots%}
-  <h3>Favorites:</h3>
-{% endif %}
-{% for lot in favorite_lots %}
-  <p><a href="/lots?id={{lot.key.urlsafe()}}">{{ lot.name }} -- {{ lot.description }}</a></p>
-{% endfor %}
-<h3>All parking lots:</h3>
-<!-- grab parking lot data from datastore -->
-<!-- pass the lot urlsafe key as an identifier -->
-{% for lot in parking_lots %}
-<p><a href="/lots?id={{lot.key.urlsafe()}}">{{ lot.name }} -- {{ lot.description }}</a></p>
-{% endfor %}
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Favorites
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        {% if favorite_lots%}
+        {% endif %}
+        {% for lot in favorite_lots %}
+        <p><a href="/lots?id={{lot.key.urlsafe()}}">{{ lot.name }} -- {{ lot.description }}</a></p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          All Parking Lots
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+        {% for lot in parking_lots %}
+        <p><a href="/lots?id={{lot.key.urlsafe()}}">{{ lot.name }} -- {{ lot.description }}</a></p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
 {%endblock content%}
+
+
