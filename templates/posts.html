@@ -14,6 +14,17 @@ information that is in the dashboard.html base template -->
   width: auto;
   height: 500px;
 }
+#legend {
+  background: #fff;
+  padding: 10px;
+  margin: 10px;
+}
+#legend h3 {
+  margin-top: 0;
+}
+#legend img {
+  vertical-align: middle;
+}
 </style>
 <!-- script responsible for map initialization and behavior -->
 <!-- <script src="../static/map.js"></script> -->
@@ -59,9 +70,16 @@ function initialize() {
   // CC BYSA 3.0 Maps Icons Collection https://mapicons.mapsmarker.com
   icons = {
     parking: {
-      p: 'static/parking.png',
-      cop: 'static/cop.png',
-      full: 'static/full.png'
+      name: 'Normal',
+      icon: 'static/parking.png'
+    },
+    cop: {
+      name: 'Cop',
+      icon: 'static/cop.png'
+    },
+    full: {
+      name: 'Full',
+      icon: 'static/full.png'
     }
   };
 
@@ -89,6 +107,16 @@ function initialize() {
   services[i].textSearch(requests[i], callback);
   i++;
   {% endfor %}
+
+  var legend = document.getElementById('legend');
+  for (var i in icons) {
+    var name = icons[i].name;
+    var icon = icons[i].icon;
+    var div = document.createElement('div');
+    div.innerHTML = '<img src="' + icon + '"> ' + name;
+    legend.appendChild(div);
+  }
+  map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
 }
 // end initialize()
 
@@ -106,14 +134,14 @@ function callback(results, status) {
       }
     }
     // conditionally update the marker image
-    var status = icons['parking'].p;
+    var status = icons.parking.icon;
     // cop icon is red
     if (lot.cop == "True") {
-      status = icons['parking'].cop;
+      status = icons.cop.icon;
     }
     // full icon is yellow
     if (lot.full == "True") {
-      status = icons['parking'].full;
+      status = icons.full.icon;
     }
     var marker = new google.maps.Marker({
       map: map,
@@ -159,7 +187,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 <!-- container for the map we created -->
 <div id="map-canvas"></div>
-
+<div id="legend"><h5>Last 15 Minutes</h5></div>
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
   <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="headingOne">
@@ -197,5 +225,3 @@ google.maps.event.addDomListener(window, 'load', initialize);
   </div>
 </div>
 {%endblock content%}
-
-
