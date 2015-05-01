@@ -28,14 +28,14 @@ class PostHandler(BaseHandler):
             Comment.date > datetime.utcnow() - timedelta(minutes=16))
 
         for c in comments:
-            l = c.lot[0].get()
+            l = c.lot.get()
             print(l.is_full)
             if c.atype == 0: # parking services
                 l.cop = True
             if c.atype == 1: # full -- priority
                 l.is_full = True
             l.put()
-            
+
         template_values ={
             'user': self.user,
             'url': self.url,
