@@ -35,14 +35,6 @@ class MainHandler(BaseHandler):
             #     description = "South Commuter"
             # ),
             # models.ParkingLot(
-            #     name = "P62A",
-            #     description = "South Commuter"
-            # ),
-            # models.ParkingLot(
-            #     name = "P62B",
-            #     description = "South Commuter"
-            # ),
-            # models.ParkingLot(
             #     name = "P64",
             #     description = "Facility Services",
             # ),
@@ -53,10 +45,6 @@ class MainHandler(BaseHandler):
             # models.ParkingLot(
             #     name = "P66",
             #     description = "Skydome"
-            # ),
-            # models.ParkingLot(
-            #     name = "P69A",
-            #     description = "Greenhouse Complex"
             # ),
             # models.ParkingLot(
             #     name = "P96A",
