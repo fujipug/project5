@@ -16,17 +16,26 @@ class PostHandler(BaseHandler):
             for x in acc.parking_lots:
                 favorite_lots.append(x.get())
 
-        # get all recent comments (<16m), update the db
+        # reset all cop and is_full properties to False
+        lots = ParkingLot.query()
+        for lot in lots:
+            lot.cop = False
+            lot.is_full = False
+            lot.put()
+
+        # get all recent comments (<16m), update cop and is_full
         comments = Comment.query(
             Comment.date > datetime.utcnow() - timedelta(minutes=16))
 
         for c in comments:
-            lot = c.lot[0].get()
+            l = c.lot[0].get()
+            print(l.is_full)
             if c.atype == 0: # parking services
-                lot.cop = True
-            if c.atype == 1: # full -- priority 
-                lot.is_full = True
-            lot.put()
+                l.cop = True
+            if c.atype == 1: # full -- priority
+                l.is_full = True
+            l.put()
+            
         template_values ={
             'user': self.user,
             'url': self.url,
