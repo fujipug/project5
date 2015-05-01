@@ -80,6 +80,10 @@ function initialize() {
     full: {
       name: 'Full',
       icon: 'static/full.png'
+    },
+    fullcop: {
+      name: 'Cop & Full',
+      icon: 'static/fullcop.png'
     }
   };
 
@@ -138,10 +142,16 @@ function callback(results, status) {
     // cop icon is red
     if (lot.cop == "True") {
       status = icons.cop.icon;
+      if (lot.full == "True") {
+        status = icons.fullcop.icon;
+      }
     }
     // full icon is yellow
     if (lot.full == "True") {
       status = icons.full.icon;
+      if (lot.cop == "True") {
+        status = icons.fullcop.icon;
+      }
     }
     var marker = new google.maps.Marker({
       map: map,
