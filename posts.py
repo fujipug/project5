@@ -30,10 +30,10 @@ class PostHandler(BaseHandler):
         for c in comments:
             l = c.lot.get()
             print(l.is_full)
-            if c.atype == 0: # parking services
-                l.cop = True
             if c.atype == 1: # full -- priority
                 l.is_full = True
+            if c.atype == 2: # cop present
+                l.cop = True
             l.put()
 
         template_values ={
