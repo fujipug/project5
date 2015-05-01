@@ -17,8 +17,9 @@
 </div>
 <hr />
 
-<!-- extract data from comments field (since it is ndb KeyProperty) -->
-<!-- hide comments that aren't recent (older than 15 minutes) -->
+<!-- old code, been replaced with ajax
+<!-- extract data from comments field (since it is ndb KeyProperty)
+<!-- hide comments that aren't recent (older than 15 minutes)
 {% for comment in comments %}
   {% if comment.recent == False %}
     <div class='collapse comment-old'>
@@ -68,12 +69,15 @@
       </div>
     </div>
     {% endif %}
-  </div> <!-- end panel div -->
+  </div>
   {% if comment.recent == False %}
-    </div> <!-- end comment-old collapse div -->
+    </div>
   {% endif %}
-{% endfor %}
-
+{% endfor %}-->
+<!-- new code now uses ajax and mustache -->
+<div id="target">
+  <p> Loading...</p>
+</div>
 <h3>Leave a comment:</h3>
 <form action="/comment_forms" method="POST" id="comment_form">
     <input type="radio" name="atype" value=0 checked> Parking Services
@@ -87,9 +91,7 @@
     <input type="hidden" name="lot_id" value="{{lot.key.urlsafe()}}"/>
     <input type="submit" value="Submit" />
 </form>
-<div id="target">
-  <p> Loading...</p>
-</div>
+
 {%endblock%}
 
 <!-- use super() to get the jquery library -->
@@ -111,15 +113,48 @@
   });
 
   function loadData() {
-    $.getJSON("/comment_forms?id=agxkZXZ-cHJvamVjdDVyFwsSClBhcmtpbmdMb3QYgICAgIDA3wkM", function (json) {
+    $.getJSON("/comment_forms?id={{lot.key.urlsafe()}}", function (json) {
       json.pop();
       var template = $('#template').html();
       Mustache.parse(template);
       var data = {
         array: json,
-        "dateString": function () {
+        "panelType": function () {
           return function (text, render) {
-            return new Date(render(text)).toString();
+            if (render(text) == 0) {
+              return 'panel panel-danger';
+            }
+            if (render(text) == 1) {
+              return 'panel panel-warning';
+            }
+            return 'panel panel-default';
+          }
+        },
+        "panelTitle": function () {
+          return function (text, render) {
+            if (render(text) == 0) {
+              return 'Parking Services';
+            }
+            if (render(text) == 1) {
+              return 'Parking Lot Full';
+            }
+            return 'Miscellaneous';
+          }
+        },
+        "recentFirst": function () {
+          return function (text, render) {
+            if (render(text) === 'false') {
+              return "<div class='collapse comment-old'>";
+            }
+            return '';
+          }
+        },
+        "recentLast": function () {
+          return function (text, render) {
+            if (render(text) === 'false') {
+              return '</div>';
+            }
+            return '';
           }
         }
       };
@@ -135,11 +170,12 @@
   </script>
   <script id="template" type="x-tmpl-mustache">
   {{ '{{' }} #array {{ '}}' }}
-    <div class='panel panel-danger'>
+    {{ '{{' }} #recentFirst {{ '}}' }}{{ '{{' }} recent {{ '}}' }}{{ '{{' }}/ recentFirst {{ '}}' }}
+    <div class="{{ '{{' }} #panelType {{ '}}' }}{{ '{{' }} atype {{ '}}' }}{{ '{{' }}/ panelType {{ '}}' }}">
       <div class="panel-heading">
         <h3 class="panel-title">
           <div class="row">
-            <div class="col-lg-8 col-md-6 col-sm-6">Miscellaneous</div>
+            <div class="col-lg-8 col-md-6 col-sm-6">{{ '{{' }} #panelTitle {{ '}}' }}{{ '{{' }} atype {{ '}}' }}{{ '{{' }}/ panelTitle {{ '}}' }}</div>
             <div class="col-lg-4 col-md-6 col-sm-6 text-right">
               <small> via <strong>{{ '{{' }} author {{ '}}' }}</strong> @ <em>{{ '{{' }} time {{ '}}' }}</em></small>
             </div>
@@ -152,6 +188,7 @@
         <small>{{ '{{' }} text {{ '}}' }}</small>
       </div>
     </div>
+    {{ '{{' }} #recentLast {{ '}}' }}{{ '{{' }} recent {{ '}}' }}{{ '{{' }}/ recentLast {{ '}}' }}
   {{ '{{' }} /array {{ '}}' }}
   </script>
 {% endblock jquery %}
